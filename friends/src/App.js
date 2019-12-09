@@ -1,9 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import { List } from 'semantic-ui-react'
 import Login from './components/Login'
-import Friends from './components/Friends'
-import logo from './logo.svg';
+import FriendsList from './components/FriendsList'
+import PrivateRoute from './components/PrivateRoute'
 import './App.css';
 
 function App() {
@@ -19,7 +18,7 @@ function App() {
           </li>
         </ul>
         <Switch>
-          <Route exact path='/friends' component={Friends}/>
+          <PrivateRoute exact path='/friends' component={FriendsList}/>
           <Route path='/login' component={Login}/>
           <Route component={Login}/>
         </Switch>

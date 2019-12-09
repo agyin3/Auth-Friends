@@ -1,15 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form } from 'semantic-ui-react'
+import { axiosWithAuth } from './axiosWithAuth'
 
-const Login = () => {
+const Login = props => {
+    const [credentials, setCredentials] = useState({username: '', password: ''})
+    const handleChange = e => {
+        setCredentials({...credentials, [e.target.name]: e.target.value})
+    }
+
+    const login = e => {
+        e.preventDefault()
+        axiosWithAuth()
+            .post('/login', {
+                ...credentials
+            })
+            .then(res => {
+                console.log(res)
+                localStorage.setItem('token', res.data.payload)
+                props.history.push('/friends')
+            })
+            .catch(err => {
+                console.log('Login: login: err: ' + err.message)
+            })
+        setCredentials({username: '', password: ''})
+    }
+
     return(
         <div className='form-container'>
-            <Form>
+            <Form onSubmit={login}>
                 <Form.Group inline>
-                    <Form.Input label='Name' placeholder='John Smith' />
-                    <Form.Input label='Age' placeholder='27' />
-                    <Form.Input label='Email' placeholder='example@me.com' />
-                    <Form.Button>Submit</Form.Button>
+                    <Form.Input type='text' name='username' value={credentials.username} label='User Name' placeholder='Username' onChange={handleChange} />
+                    <Form.Input type='password' name='password' value={credentials.password} label='Password' placeholder='Password' onChange={handleChange} />
+                    <Form.Button type='submit'>Submit</Form.Button>
                 </Form.Group>
             </Form>
         </div>
