@@ -54,4 +54,11 @@ li {
 .form-container{
   display: flex;
   justify-content: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.card-container {
+  width: 80%;
+  margin: 0 auto;
 }
